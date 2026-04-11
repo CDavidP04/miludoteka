@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:miludoteka/config/router/app_router.dart';
+import 'package:miludoteka/config/theme/app_theme.dart';
 
 void main() {
   runApp(const MainApp());
@@ -12,7 +13,10 @@ class MainApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp.router(
       routerConfig: appRouter,
-      debugShowCheckedModeBanner: false            
+      debugShowCheckedModeBanner: false,
+      theme: AppTheme.light(),
+      darkTheme: AppTheme.dark(),
+      themeMode: ThemeMode.system,
     );
   }
 }

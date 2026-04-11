@@ -6,8 +6,7 @@ class HomeView extends StatelessWidget {
   const HomeView({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    // TODO: implement build
+  Widget build(BuildContext context) {    
     return CustomScrollView(
       slivers: [
         const SliverAppBar(
@@ -19,15 +18,118 @@ class HomeView extends StatelessWidget {
         ),
         SliverFillRemaining(
           child: Center(
-            child: Text(
-              'Contenido de la Ludoteca',
-              style: Theme.of(context).textTheme.headlineMedium,
-            ),
+            child: _EmptyState()
           ),
         ),
       ],
     );
   }
+}
+
+class _EmptyState extends StatelessWidget {
+
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.all(24),      
+      child: Column(        
+        crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisAlignment: MainAxisAlignment.start,
+        children: [        
+          SizedBox(height: 16),
+          Text(
+          'Mi Colección personal',
+          style: Theme.of(context).textTheme.labelSmall?.copyWith(            
+            fontSize: 15,
+            fontWeight: FontWeight.bold,
+            letterSpacing: 0.3,
+          ),
+        ),
+        const SizedBox(height: 16),
+        RichText(
+          text: TextSpan(
+            children: [
+              TextSpan(
+                text: 'Tu primer ',
+                style: Theme.of(context).textTheme.displaySmall?.copyWith(                  
+                  fontWeight: FontWeight.w900,
+                  height: 1.1,
+                ),
+              ),
+              TextSpan(
+                text: 'Juego',
+                style: Theme.of(context).textTheme.displaySmall?.copyWith(                  
+                  fontWeight: FontWeight.w900,
+                  height: 1.1,
+                ),
+              ),
+            ],
+          ),
+        ),
+        const SizedBox(height: 16),
+        Text(
+          'Tu ludoteca digital está lista. Registra tu primer juego de mesa para comenzar a preservar el legado de tu mesa.',
+          style: Theme.of(context).textTheme.bodyLarge?.copyWith(            
+            height: 1.5,
+          ),
+        ),
+        const SizedBox(height: 32),
+        // Action Group
+        Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            ElevatedButton.icon(
+              icon: const Icon(Icons.add_box),
+              label: Text(
+                'Añadir Juego',
+                style: Theme.of(context).textTheme.labelLarge?.copyWith(
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              style: ElevatedButton.styleFrom(
+                backgroundColor: const Color(0xFFC3C0FF),
+                foregroundColor: const Color(0xFF1f00a4),
+                padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 16),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(12),
+                ),
+                elevation: 8,
+                shadowColor: const Color(0xFF4338ca).withOpacity(0.3),
+              ),
+              onPressed: () {},
+            ),
+          ],
+        ),
+        const SizedBox(height: 32),        
+        Divider(
+          color: const Color(0xFF918fa0).withOpacity(0.1),
+        ),
+        const SizedBox(height: 16),
+        Row(
+          children: [
+            const Icon(
+              Icons.auto_awesome,
+              color: Color(0xFFe9c349),
+              size: 20,
+            ),
+            const SizedBox(width: 12),
+            Expanded(
+              child: Text(
+                '"Un juego de mesa bien conservado cuenta mil historias."',
+                style: Theme.of(context).textTheme.bodySmall?.copyWith(                  
+                  fontStyle: FontStyle.italic,
+                  fontSize: 12,
+                ),
+              ),
+            ),
+          ],
+        ),        
+        ],
+      ),
+    );
+  }
+}
 
   // @override
   // Widget build(BuildContext context) {
@@ -246,4 +348,3 @@ class HomeView extends StatelessWidget {
   //     ],
   //   );
   // }
-}

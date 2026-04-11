@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
-import '../../features/shared/games/presentation/screens/screens.dart';
-import '../../features/shared/games/presentation/widgets/widgets.dart';
+import '../../features/games/presentation/screens/screens.dart';
+import '../../features/games/presentation/widgets/widgets.dart';
 
 Widget _placeholderView(String title) {
   return Scaffold(
