@@ -1,3 +1,5 @@
+import 'package:drift/drift.dart';
+
 import '../../../../config/database/database.dart';
 import '../../domain/datasource/games_datasource.dart';
 import '../../domain/entities/entities.dart';
@@ -11,8 +13,8 @@ class GamesLocalDatasourceImpl implements GamesLocalDatasource {
   GamesLocalDatasourceImpl(this._db, this._gameCategories);
 
   Future<GameEntity> _withCategories(Game drift) async {
-    final cats = await _gameCategories.getNamesByGame(drift.id);
-    return GameMapper.fromDrift(drift, categories: cats);
+    final categories = await _gameCategories.getNamesByGame(drift.id);
+    return GameMapper.fromDrift(drift, categories: categories);
   }
 
   @override
@@ -37,40 +39,46 @@ class GamesLocalDatasourceImpl implements GamesLocalDatasource {
   }
   
   @override
-  Future<void> delete(int id) {
-    // TODO: implement delete
-    throw UnimplementedError();
+  Future<void> delete(int id) async{
+    await (_db.delete(_db.games)..where((g) => g.id.equals(id))).go();
   }
   
   @override
-  Future<GameEntity?> getById(int id) {
-    // TODO: implement getById
-    throw UnimplementedError();
+  Future<GameEntity?> getById(int id) async{
+    final drift = await (_db.select(_db.games)
+          ..where((g) => g.id.equals(id)))
+        .getSingleOrNull();
+ 
+    if (drift == null) return null;
+    return _withCategories(drift);
   }
   
   @override
-  Future<void> toggleFavorite(int id, bool current) {
-    // TODO: implement toggleFavorite
-    throw UnimplementedError();
+  Future<void> toggleFavorite(int id, bool current) async {
+    await (_db.update(_db.games)..where((g) => g.id.equals(id)))
+        .write(GamesCompanion(isFavorite: Value(!current)));
   }
   
   @override
-  Future<void> updateStatus(int id, String status) {
-    // TODO: implement updateStatus
-    throw UnimplementedError();
+  Future<void> updateStatus(int id, String status) async {
+    await (_db.update(_db.games)..where((g) => g.id.equals(id)))
+        .write(GamesCompanion(status: Value(status)));
   }
   
   @override
   Stream<List<GameEntity>> watchAll() {
-    // TODO: implement watchAll
-    throw UnimplementedError();
+    return _db.select(_db.games).watch().asyncMap(
+          (rows) => Future.wait(rows.map(_withCategories)),
+        );
   }
   
   @override
   Stream<List<GameEntity>> watchByStatus(String status) {
-    // TODO: implement watchByStatus
-    throw UnimplementedError();
+    return (_db.select(_db.games)
+          ..where((g) => g.status.equals(status)))
+        .watch()
+        .asyncMap(
+          (rows) => Future.wait(rows.map(_withCategories)),
+        );
   }
-
-  // ... resto igual que antes
 }

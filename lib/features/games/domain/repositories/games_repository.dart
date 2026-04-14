@@ -3,6 +3,7 @@ import '../entities/entities.dart';
 abstract class GamesRepository {
   // ── Reactivo ────────────────────────────────────────────
   Stream<List<GameEntity>> watchAll();
+  // STATUS: "Library", "Wishlist""
   Stream<List<GameEntity>> watchByStatus(String status);
 
   // ── Queries ─────────────────────────────────────────────
